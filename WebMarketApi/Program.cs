@@ -1,9 +1,28 @@
 using Microsoft.EntityFrameworkCore;
 using WebMarketApi.Data;
+using WebMarketApi.Interfaces.Repository;
+using WebMarketApi.Interfaces.Service;
+using WebMarketApi.Repository;
+using WebMarketApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Inicio del área de servicio
+
+builder.Services.AddControllers();
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+
+builder.Services.AddScoped<IMarcaRepository, MarcaRepository>();
+builder.Services.AddScoped<IMarcaService, MarcaService>();
+
+builder.Services.AddScoped<ITiposEmpaqueRepository, TiposEmpaqueRepository>();
+builder.Services.AddScoped<ITiposEmpaqueService, TiposEmpaqueService>();
+
+builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
+builder.Services.AddScoped<IProveedorService, ProveedorService>();
+
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<DB_MiniMarketContext>(options =>
 {
@@ -18,5 +37,7 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.MapControllers();
 
 app.Run();

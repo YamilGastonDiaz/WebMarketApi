@@ -70,11 +70,6 @@ namespace WebMarketApi.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, UpdateEmpaqueDTO dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var actualizado = await _empaqueService.Update(id, dto);
 
             if (!actualizado)
