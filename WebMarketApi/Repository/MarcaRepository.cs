@@ -1,0 +1,65 @@
+﻿using Microsoft.EntityFrameworkCore;
+using WebMarketApi.Data;
+using WebMarketApi.Interfaces.Repository;
+using WebMarketApi.Models;
+
+namespace WebMarketApi.Repository
+{
+    public class MarcaRepository : IMarcaRepository
+    {
+        private readonly DB_MiniMarketContext _context;
+
+        public MarcaRepository(DB_MiniMarketContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<IEnumerable<Marca>> GetMarcas()
+        {
+            return await _context.Marcas.Where(m => m.Estado).ToListAsync();
+        }
+
+        public async Task<Marca?> GetMarca(int id)
+        {
+            return await _context.Marcas.FirstOrDefaultAsync(m => m.Marca_id == id && m.Estado);
+        }
+
+        public async Task<Marca?> GetMarca(string descripcion)
+        {
+            return await _context.Marcas.FirstOrDefaultAsync(m => m.Descripcion == descripcion && m.Estado);
+        }
+
+        public async Task<bool> NombreExiste(string descripcion)
+        {
+            return await _context.Marcas.
+                AnyAsync(m => m.Descripcion == descripcion && m.Estado);
+        }
+
+        public async Task<Marca> Add(Marca marca)
+        {
+            _context.Marcas.Add(marca);
+            await _context.SaveChangesAsync();
+            return marca;
+        }
+
+        public async Task<bool> Update(Marca marca)
+        {
+            _context.Marcas.Update(marca);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            var marca = await _context.Marcas.FirstOrDefaultAsync(m => m.Marca_id == id && m.Estado);
+
+            if (marca == null)
+            {
+                return false;
+            }
+
+            marca.Estado = false;
+
+            return await _context.SaveChangesAsync() > 0;
+        }
+    }
+}
