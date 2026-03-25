@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebMarketApi.DTOs;
 using WebMarketApi.Interfaces.Service;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Controllers
 {
@@ -16,7 +17,7 @@ namespace WebMarketApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategorias([FromQuery] PaginacionDTO dto)
+        public async Task<ActionResult<Paginado<CategoriaDTO>>> GetCategorias([FromQuery] PaginacionDTO dto)
         {
             var categorias = await _categoriaService.GetCategorias(dto);
 
@@ -52,11 +53,6 @@ namespace WebMarketApi.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(CreateCategoriaDTO dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var categoria = await _categoriaService.Add(dto);
 
             if (categoria == null)
