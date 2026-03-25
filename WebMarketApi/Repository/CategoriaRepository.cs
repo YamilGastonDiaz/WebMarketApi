@@ -45,8 +45,8 @@ namespace WebMarketApi.Repository
 
         public async Task<bool> NombreExiste(string descripcion)
         {
-            return await _context.Categorias.
-                AnyAsync(c => c.Descripcion == descripcion && c.Estado);
+            return await _context.Categorias
+                .AnyAsync(c => c.Descripcion == descripcion && c.Estado);
         }
 
         public async Task<Categoria> Add(Categoria categoria)
@@ -64,8 +64,8 @@ namespace WebMarketApi.Repository
 
         public async Task<bool> Delete(int id)
         {
-            var categoria = await _context.Categorias.
-                FirstOrDefaultAsync(c => c.Categoria_id == id && c.Estado);
+            var categoria = await _context.Categorias
+                .FirstOrDefaultAsync(c => c.Categoria_id == id && c.Estado);
 
             if (categoria == null)
             {

@@ -7,7 +7,7 @@ namespace WebMarketApi.Interfaces.Service
     {
         Task<Paginado<ProveedorDTO>> GetProveedores(PaginacionDTO dto);
         Task<ProveedorDTO?> GetProveedor(int id);
-        Task<ProveedorDTO?> GetProveedor(string cuit);
+        Task<ProveedorDTO?> GetProveedor(string nombre);
         Task<ProveedorDTO?> Add(CreateProveedorDTO dto);
         Task<bool> Update(int id, UpdateProveedorDTO dto);
         Task<bool> Delete(int id);

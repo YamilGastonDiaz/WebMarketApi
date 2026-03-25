@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebMarketApi.Models;
 
@@ -16,6 +17,7 @@ public partial class Producto
     public virtual ICollection<DetalleCompra> DetalleCompras { get; set; } = new List<DetalleCompra>();
     public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
     public virtual ICollection<StockProducto> StockProductos { get; set; } = new List<StockProducto>();
+    //Usar en el .Include
     public virtual Categoria id_CategoriaNavigation { get; set; } = null!;
     public virtual TiposEmpaque id_EmpaqueNavigation { get; set; } = null!;
     public virtual Marca id_MarcaNavigation { get; set; } = null!;

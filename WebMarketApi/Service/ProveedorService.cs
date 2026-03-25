@@ -40,9 +40,9 @@ namespace WebMarketApi.Service
             return proveedor.ToProveedorDto();
         }
 
-        public async Task<ProveedorDTO?> GetProveedor(string descripcion)
+        public async Task<ProveedorDTO?> GetProveedor(string nombre)
         {
-            var proveedor = await _proveedorRepository.GetProveedor(descripcion);
+            var proveedor = await _proveedorRepository.GetProveedor(nombre);
 
             if (proveedor == null)
             {
@@ -54,14 +54,14 @@ namespace WebMarketApi.Service
 
         public async Task<ProveedorDTO?> Add(CreateProveedorDTO dto)
         {
-            var cuitLimpio = dto.CUIT;
+            var cuit = dto.CUIT;
 
-            if (cuitLimpio == null)
+            if (cuit == null)
             {
                 return null;
             }
 
-            if (await _proveedorRepository.CuitExiste(cuitLimpio))
+            if (await _proveedorRepository.CuitExiste(cuit))
             {
                 return null;
             }

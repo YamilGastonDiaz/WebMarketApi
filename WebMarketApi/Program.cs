@@ -22,6 +22,12 @@ builder.Services.AddScoped<ITiposEmpaqueService, TiposEmpaqueService>();
 builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
 
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
+
+builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<IStockService, StockService>();
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<DB_MiniMarketContext>(options =>
