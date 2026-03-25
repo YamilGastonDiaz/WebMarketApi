@@ -1,10 +1,11 @@
-﻿using WebMarketApi.Models;
+﻿using WebMarketApi.DTOs;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Interfaces.Repository
 {
     public interface ITiposEmpaqueRepository
     {
-        Task<IEnumerable<TiposEmpaque>> GetTiposEmpaques();
+        Task<(IEnumerable<TiposEmpaque> empaques, int total)> GetTiposEmpaques(PaginacionDTO dto);
         Task<TiposEmpaque?> GetTiposEmpaque(int id);
         Task<TiposEmpaque?> GetTiposEmpaque(string descripcion);
         Task<TiposEmpaque> Add(TiposEmpaque empaque);

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebMarketApi.Data;
+using WebMarketApi.DTOs;
 using WebMarketApi.Interfaces.Repository;
 using WebMarketApi.Models;
+using WebMarketApi.Utilities;
 
 namespace WebMarketApi.Repository
 {
@@ -14,9 +16,20 @@ namespace WebMarketApi.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<TiposEmpaque>> GetTiposEmpaques()
+        public async Task<(IEnumerable<TiposEmpaque> empaques, int total)> GetTiposEmpaques(PaginacionDTO dto)
         {
-            return await _context.TiposEmpaques.Where(e => e.Estado).ToListAsync();
+            var queryable = _context.TiposEmpaques.Where(e => e.Estado).AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(dto.Buscar))
+            {
+                queryable = queryable.Where(e => e.Descripcion.Contains(dto.Buscar));
+            }
+
+            var total = await queryable.CountAsync();
+
+            var empaques = await queryable.OrderBy(e => e.Empaque_id).Paginar(dto).ToListAsync();
+
+            return (empaques, total);
         }
 
         public async Task<TiposEmpaque?> GetTiposEmpaque(int id)

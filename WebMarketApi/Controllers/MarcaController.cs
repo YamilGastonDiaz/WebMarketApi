@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebMarketApi.DTOs;
 using WebMarketApi.Interfaces.Service;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Controllers
 {
@@ -16,9 +17,9 @@ namespace WebMarketApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MarcaDTO>>> GetMarcas()
+        public async Task<ActionResult<Paginado<MarcaDTO>>> GetMarcas([FromQuery] PaginacionDTO dto)
         {
-            var marcas = await _marcaService.GetMarcas();
+            var marcas = await _marcaService.GetMarcas(dto);
 
             return Ok(marcas);
         }

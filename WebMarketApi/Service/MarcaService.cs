@@ -2,6 +2,7 @@
 using WebMarketApi.Interfaces.Repository;
 using WebMarketApi.Interfaces.Service;
 using WebMarketApi.Mapping;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Service
 {
@@ -14,11 +15,17 @@ namespace WebMarketApi.Service
             _marcaRepository = marcaRepository;
         }
 
-        public async Task<IEnumerable<MarcaDTO>> GetMarcas()
+        public async Task<Paginado<MarcaDTO>> GetMarcas(PaginacionDTO dto)
         {
-            var marcas = await _marcaRepository.GetMarcas();
+            var (marcas, total) = await _marcaRepository.GetMarcas(dto);
 
-            return marcas.Select(m => m.ToMarcaDto());
+            return new Paginado<MarcaDTO>
+            {
+                TotalRegistros = total,
+                Pagina = dto.Pagina,
+                RecordsPorPagina = dto.RecordPorPagina,
+                Data = marcas.Select(m => m.ToMarcaDto())
+            };
         }
 
         public async Task<MarcaDTO?> GetMarca(int id)

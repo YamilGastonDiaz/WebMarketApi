@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebMarketApi.Data;
+using WebMarketApi.DTOs;
 using WebMarketApi.Interfaces.Repository;
 using WebMarketApi.Models;
+using WebMarketApi.Utilities;
 
 namespace WebMarketApi.Repository
 {
@@ -14,9 +16,20 @@ namespace WebMarketApi.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Proveedor>> GetProveedores()
+        public async Task<(IEnumerable<Proveedor> proveedores, int total)> GetProveedores(PaginacionDTO dto)
         {
-            return await _context.Proveedores.Where(p => p.Estado).ToListAsync();
+            var queryable = _context.Proveedores.Where(p => p.Estado).AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(dto.Buscar))
+            {
+                queryable = queryable.Where(p => p.Nombre.Contains(dto.Buscar));
+            }
+
+            var total = await queryable.CountAsync();
+
+            var proveedores = await queryable.OrderBy(p => p.Proveedor_id).Paginar(dto).ToListAsync();
+
+            return (proveedores, total);
         }
 
         public async Task<Proveedor?> GetProveedor(int id)

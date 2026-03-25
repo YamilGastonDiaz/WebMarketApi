@@ -1,10 +1,11 @@
 ﻿using WebMarketApi.DTOs;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Interfaces.Service
 {
     public interface IMarcaService
     {
-        Task<IEnumerable<MarcaDTO>> GetMarcas();
+        Task<Paginado<MarcaDTO>> GetMarcas(PaginacionDTO dto);
         Task<MarcaDTO?> GetMarca(int id);
         Task<MarcaDTO?> GetMarca(string descripcion);
         Task<MarcaDTO?> Add(CreateMarcaDTO dto);

@@ -2,6 +2,7 @@
 using WebMarketApi.Interfaces.Repository;
 using WebMarketApi.Interfaces.Service;
 using WebMarketApi.Mapping;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Service
 {
@@ -14,11 +15,17 @@ namespace WebMarketApi.Service
             _tiposEmpaqueRepository = tiposEmpaqueRepository;
         }
 
-        public async Task<IEnumerable<EmpaqueDTO>> GetTiposEmpaques()
+        public async Task<Paginado<EmpaqueDTO>> GetTiposEmpaques(PaginacionDTO dto)
         {
-            var empaque = await _tiposEmpaqueRepository.GetTiposEmpaques();
+            var (empaque, total) = await _tiposEmpaqueRepository.GetTiposEmpaques(dto);
 
-            return empaque.Select(e => e.ToEmapaqueDto());
+            return new Paginado<EmpaqueDTO>
+            {
+                TotalRegistros = total,
+                Pagina = dto.Pagina,
+                RecordsPorPagina = dto.RecordPorPagina,
+                Data = empaque.Select(e => e.ToEmapaqueDto())
+            };
         }
 
         public async Task<EmpaqueDTO?> GetTiposEmpaque(int id)

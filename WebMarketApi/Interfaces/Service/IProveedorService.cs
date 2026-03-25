@@ -1,10 +1,11 @@
 ﻿using WebMarketApi.DTOs;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Interfaces.Service
 {
     public interface IProveedorService
     {
-        Task<IEnumerable<ProveedorDTO>> GetProveedores();
+        Task<Paginado<ProveedorDTO>> GetProveedores(PaginacionDTO dto);
         Task<ProveedorDTO?> GetProveedor(int id);
         Task<ProveedorDTO?> GetProveedor(string cuit);
         Task<ProveedorDTO?> Add(CreateProveedorDTO dto);

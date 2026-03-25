@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebMarketApi.DTOs;
 using WebMarketApi.Interfaces.Service;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Controllers
 {
@@ -16,9 +17,9 @@ namespace WebMarketApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmpaqueDTO>>> GetEmpaques()
+        public async Task<ActionResult<Paginado<EmpaqueDTO>>> GetEmpaques([FromQuery] PaginacionDTO dto)
         {
-            var empaques = await _empaqueService.GetTiposEmpaques();
+            var empaques = await _empaqueService.GetTiposEmpaques(dto);
 
             return Ok(empaques);
         }

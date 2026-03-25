@@ -2,6 +2,7 @@
 using WebMarketApi.Interfaces.Repository;
 using WebMarketApi.Interfaces.Service;
 using WebMarketApi.Mapping;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Service
 {
@@ -14,11 +15,17 @@ namespace WebMarketApi.Service
             _proveedorRepository = proveedorRepository;
         }
 
-        public async Task<IEnumerable<ProveedorDTO>> GetProveedores()
+        public async Task<Paginado<ProveedorDTO>> GetProveedores(PaginacionDTO dto)
         {
-            var proveedores = await _proveedorRepository.GetProveedores();
+            var (proveedores, total) = await _proveedorRepository.GetProveedores(dto);
 
-            return proveedores.Select(p => p.ToProveedorDto());
+            return new Paginado<ProveedorDTO>
+            {
+                TotalRegistros = total,
+                Pagina = dto.Pagina,
+                RecordsPorPagina = dto.RecordPorPagina,
+                Data = proveedores.Select(p => p.ToProveedorDto())
+            };
         }
 
         public async Task<ProveedorDTO?> GetProveedor(int id)

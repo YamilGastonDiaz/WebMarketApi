@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebMarketApi.Data;
+using WebMarketApi.DTOs;
 using WebMarketApi.Interfaces.Repository;
 using WebMarketApi.Models;
+using WebMarketApi.Utilities;
 
 namespace WebMarketApi.Repository
 {
@@ -14,9 +16,20 @@ namespace WebMarketApi.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Marca>> GetMarcas()
+        public async Task<(IEnumerable<Marca> marcas, int total)> GetMarcas(PaginacionDTO dto)
         {
-            return await _context.Marcas.Where(m => m.Estado).ToListAsync();
+            var queryable = _context.Marcas.Where(m => m.Estado).AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(dto.Buscar))
+            {
+                queryable = queryable.Where(c => c.Descripcion.Contains(dto.Buscar));
+            }
+
+            var total = await queryable.CountAsync();
+
+            var marcas = await queryable.OrderBy(m => m.Marca_id).Paginar(dto).ToListAsync();
+
+            return (marcas, total);
         }
 
         public async Task<Marca?> GetMarca(int id)

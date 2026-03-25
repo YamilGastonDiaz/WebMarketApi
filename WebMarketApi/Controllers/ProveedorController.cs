@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebMarketApi.DTOs;
 using WebMarketApi.Interfaces.Service;
+using WebMarketApi.Models;
 
 namespace WebMarketApi.Controllers
 {
@@ -16,9 +17,9 @@ namespace WebMarketApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProveedorDTO>>> GetProveedores()
+        public async Task<ActionResult<Paginado<ProveedorDTO>>> GetProveedores([FromQuery] PaginacionDTO dto)
         {
-            var proveedores = await _proveedorService.GetProveedores();
+            var proveedores = await _proveedorService.GetProveedores(dto);
 
             return Ok(proveedores);
         }

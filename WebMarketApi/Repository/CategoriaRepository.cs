@@ -19,7 +19,12 @@ namespace WebMarketApi.Repository
 
         public async Task<(IEnumerable<Categoria> categorias, int total)> GetCategorias(PaginacionDTO dto)
         {
-            var queryable = _context.Categorias.AsQueryable();
+            var queryable = _context.Categorias.Where(c => c.Estado).AsNoTracking().AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(dto.Buscar))
+            {
+                queryable = queryable.Where(c => c.Descripcion.Contains(dto.Buscar));
+            }
 
             var total = await queryable.CountAsync();
             
