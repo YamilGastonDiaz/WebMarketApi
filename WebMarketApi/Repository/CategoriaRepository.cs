@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebMarketApi.Data;
+using WebMarketApi.DTOs;
 using WebMarketApi.Interfaces.Repository;
 using WebMarketApi.Models;
+using WebMarketApi.Utilities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebMarketApi.Repository
 {
@@ -14,9 +17,15 @@ namespace WebMarketApi.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Categoria>> GetCategorias()
+        public async Task<(IEnumerable<Categoria> categorias, int total)> GetCategorias(PaginacionDTO dto)
         {
-            return await _context.Categorias.Where(c => c.Estado).ToListAsync();
+            var queryable = _context.Categorias.AsQueryable();
+
+            var total = await queryable.CountAsync();
+            
+            var categoria = await queryable.OrderBy(c => c.Categoria_id).Paginar(dto).ToListAsync();
+
+            return (categoria, total);
         }
 
         public async Task<Categoria?> GetCategoria(int id)

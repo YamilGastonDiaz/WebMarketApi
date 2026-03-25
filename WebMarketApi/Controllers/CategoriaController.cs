@@ -16,9 +16,9 @@ namespace WebMarketApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategorias()
+        public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetCategorias([FromQuery] PaginacionDTO dto)
         {
-            var categorias = await _categoriaService.GetCategorias();
+            var categorias = await _categoriaService.GetCategorias(dto);
 
             return Ok(categorias);
         }
@@ -70,11 +70,6 @@ namespace WebMarketApi.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id, UpdateCategoriaDTO dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var actualizado = await _categoriaService.Update(id, dto);
 
             if (!actualizado)
