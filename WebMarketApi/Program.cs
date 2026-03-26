@@ -35,15 +35,30 @@ builder.Services.AddDbContext<DB_MiniMarketContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opciones => 
+{
+    opciones.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo 
+    {
+       Title = "Web Market Api",
+       Description = "Aprendiendo Web Api",
+       Contact = new Microsoft.OpenApi.Models.OpenApiContact
+       {
+           Email = "yamiil.gaston.diaz@gmail.com",
+           Name = "Yamil Gaston Diaz",
+           Url = new Uri("https://www.linkedin.com/in/yamil-gaston-diaz/")  
+       }
+    });
+});
 
 var app = builder.Build();
 
 //Inicio del área de los middlewares
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 app.MapControllers();
 
 app.Run();

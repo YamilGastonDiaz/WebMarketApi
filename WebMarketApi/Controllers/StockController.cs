@@ -16,7 +16,7 @@ namespace WebMarketApi.Controllers
             _stockService = stockService;
         }
 
-        [HttpGet("id/{id:int}", Name = "ObtenerStock")]
+        [HttpGet("id/{id:int}")]
         public async Task<ActionResult<StockDTO>> GetProducto(int id)
         {
             var stock = await _stockService.GetStock(id);

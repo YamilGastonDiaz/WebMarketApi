@@ -22,7 +22,6 @@ namespace WebMarketApi.Repository
                 .Include(p => p.id_CategoriaNavigation)
                 .Include(p => p.id_MarcaNavigation)
                 .Include(p => p.id_EmpaqueNavigation)
-                .Include(p => p.StockProductos)
                 .AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(dto.Buscar))
@@ -43,7 +42,6 @@ namespace WebMarketApi.Repository
                 .Include(p => p.id_CategoriaNavigation)
                 .Include(p => p.id_MarcaNavigation)
                 .Include(p => p.id_EmpaqueNavigation)
-                .Include(p => p.StockProductos)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Producto_id == id && p.Estado);
         }
@@ -54,7 +52,6 @@ namespace WebMarketApi.Repository
                 .Include(p => p.id_CategoriaNavigation)
                 .Include(p => p.id_MarcaNavigation)
                 .Include(p => p.id_EmpaqueNavigation)
-                .Include(p => p.StockProductos)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Descripcion == descripcion && p.Estado);
         }

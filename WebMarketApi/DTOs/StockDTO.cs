@@ -1,6 +1,6 @@
 ﻿namespace WebMarketApi.DTOs
 {
-    public class StockDTO
+    public class StockDTO : ProductoConStockDTO
     {
         public int Stock_id { get; set; }
         public int id_Producto { get; set; }

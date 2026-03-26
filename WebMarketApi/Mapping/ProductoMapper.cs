@@ -7,7 +7,6 @@ namespace WebMarketApi.Mapping
     {
         public static ProductoDTO ToProductoDto(this Producto producto)
         {
-            var stockEntidad = producto.StockProductos?.FirstOrDefault();
             return new ProductoDTO
             {
                 Producto_id = producto.Producto_id,
@@ -18,15 +17,7 @@ namespace WebMarketApi.Mapping
                 NombreEmpaque = producto.id_EmpaqueNavigation?.Descripcion,
 
                 Descripcion = producto.Descripcion,
-                Stock_min = producto.Stock_min,
-
-                 StockDTO = stockEntidad != null ? new StockDTO
-                 {
-                     Stock_id = stockEntidad.Stock_id,
-                     Stock_actual = stockEntidad.Stock_actual,
-                     PrecioDia = stockEntidad.PrecioDia,
-                     PrecioNoche = stockEntidad.PrecioNoche
-                 } : new StockDTO()
+                Stock_min = producto.Stock_min
             };
         }
 

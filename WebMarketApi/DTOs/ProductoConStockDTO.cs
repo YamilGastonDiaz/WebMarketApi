@@ -1,8 +1,7 @@
 ﻿namespace WebMarketApi.DTOs
 {
-    public class ProductoDTO
+    public class ProductoConStockDTO
     {
-        public int Producto_id { get; set; }
         public string CodigoBarras { get; set; } = null!;
         // Nombres para mostrar en la tabla/interfaz
         public string? NombreCategoria { get; set; }

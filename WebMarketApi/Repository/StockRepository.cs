@@ -17,6 +17,10 @@ namespace WebMarketApi.Repository
         public async Task<StockProducto?> GetStock(int idProducto)
         {
             return await _context.StockProductos
+                .Include(s => s.id_ProductoNavigation)
+                .Include(s => s.id_ProductoNavigation.id_CategoriaNavigation)
+                .Include(s => s.id_ProductoNavigation.id_MarcaNavigation)
+                .Include(s => s.id_ProductoNavigation.id_EmpaqueNavigation)
                 .FirstOrDefaultAsync(s => s.id_Producto == idProducto);
         }
 
