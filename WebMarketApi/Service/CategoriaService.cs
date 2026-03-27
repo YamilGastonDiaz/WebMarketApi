@@ -75,12 +75,10 @@ namespace WebMarketApi.Service
                 return false;
             }
 
-            var nuevaDescripcion = dto.Descripcion;
-
-            if (nuevaDescripcion != null &&
-                !string.Equals(categoria.Descripcion, nuevaDescripcion, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(dto.Descripcion) &&
+                !string.Equals(categoria.Descripcion, dto.Descripcion, StringComparison.OrdinalIgnoreCase))
             {
-                if (await _categoriaRepository.NombreExiste(nuevaDescripcion))
+                if (await _categoriaRepository.NombreExiste(dto.Descripcion))
                 {
                     return false;
                 }

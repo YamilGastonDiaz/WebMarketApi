@@ -74,9 +74,9 @@ namespace WebMarketApi.Service
                 PrecioNoche = 0,
             };
 
-            var productoCompleto = await _productoRepository.GetProducto(nuevoProducto.Producto_id);
-
             await _stockRepository.Add(stock);
+
+            var productoCompleto = await _productoRepository.GetProducto(nuevoProducto.Producto_id);
 
             return productoCompleto?.ToProductoDto();
         }

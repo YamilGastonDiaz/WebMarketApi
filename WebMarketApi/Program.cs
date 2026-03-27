@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using WebMarketApi.Data;
 using WebMarketApi.Interfaces.Repository;
 using WebMarketApi.Interfaces.Service;
 using WebMarketApi.Repository;
 using WebMarketApi.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +31,28 @@ builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<IStockService, StockService>();
 
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+var key = Encoding.UTF8.GetBytes(builder.Configuration["Key"]!);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false, 
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 builder.Services.AddDbContext<DB_MiniMarketContext>(options =>
 {
