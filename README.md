@@ -83,7 +83,6 @@ Take(RegistrosPorPagina)`
 ---
 
 ### Captura de Pantalla
-![Api Web](<img width="758" height="520" alt="image" src="https://github.com/user-attachments/assets/12a4e277-f937-4cf1-8a51-a87a54d03e5f" />
-)
+![Api Web](https://github.com/user-attachments/assets/12a4e277-f937-4cf1-8a51-a87a54d03e5f")
 
 
